@@ -13,10 +13,7 @@
     <link href="css/bootstrap-theme.min.css" rel="stylesheet" />
     <script src="js/jquery.js" type="text/javascript"></script>
     <script src="js/bootstrap.min.js" type="text/javascript"></script>
-
-    <script type="text/javascript">
-
-    </script>
+    <script src="js/main.js" type="text/javascript"></script>
     <title></title>
 </head>
 <body>
@@ -38,7 +35,7 @@
                         <a role="menuitem" tabindex="-1" onclick="$('#modalApproval').modal('show');" href="#">主管审批</a>
                     </li>
                     <li role="presentation">
-                        <a role="menuitem" tabindex="-1" href="#">车辆追加
+                        <a role="menuitem" tabindex="-1" href="#" onclick="myfunction();">车辆追加
                         </a>
                     </li>
                     <li role="presentation" class="divider"></li>

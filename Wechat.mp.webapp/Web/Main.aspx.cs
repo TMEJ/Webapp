@@ -62,6 +62,41 @@ namespace Wechat.mp.webapp.Web
         }
 
         [WebMethod]
-        public static string getXXX() { return ""; }
+        public static string getXXX() { return "Hello Ajax!"; }
+
+        #region dataTable转换成Json格式
+        /// <summary>  
+        /// dataTable转换成Json格式  
+        /// </summary>  
+        /// <param name="dt"></param>  
+        /// <returns></returns>  
+        public static string DataTable2Json(DataTable dt)
+        {
+            StringBuilder jsonBuilder = new StringBuilder();
+            jsonBuilder.Append("{\"");
+            jsonBuilder.Append(dt.TableName);
+            jsonBuilder.Append("\":[");
+            jsonBuilder.Append("[");
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                jsonBuilder.Append("{");
+                for (int j = 0; j < dt.Columns.Count; j++)
+                {
+                    jsonBuilder.Append("\"");
+                    jsonBuilder.Append(dt.Columns[j].ColumnName);
+                    jsonBuilder.Append("\":\"");
+                    jsonBuilder.Append(dt.Rows[i][j].ToString());
+                    jsonBuilder.Append("\",");
+                }
+                jsonBuilder.Remove(jsonBuilder.Length - 1, 1);
+                jsonBuilder.Append("},");
+            }
+            jsonBuilder.Remove(jsonBuilder.Length - 1, 1);
+            jsonBuilder.Append("]");
+            jsonBuilder.Append("}");
+            return jsonBuilder.ToString();
+        }
+
+        #endregion dataTable转换成Json格式
     }
 }
