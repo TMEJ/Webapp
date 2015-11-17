@@ -49,40 +49,40 @@
             </div>
         </header>
         <div class="panel-group" id="accordion">
-            <asp:GridView ID="gvCarinfo" runat="server">
+            <asp:GridView ID="gvCarinfo" runat="server" BorderStyle="None" AutoGenerateColumns="false" Width="100%" ShowHeader="false" >
                 <Columns>
-                    <asp:TemplateField>
+                    <asp:TemplateField ShowHeader="false" HeaderStyle-BorderStyle="None" HeaderStyle-Height="0">
                         <ItemTemplate>
                             <div class="panel panel-default" style="position: relative">
                                 <a data-toggle="collapse" data-parent="#accordion"
-                                    href="#collapseOne">
+                                    href="#collapse<%# Eval("CAR_ID") %>">
                                     <div class="panel-heading">
                                         <img src="img/kmr.png" />
-                                        <h4><%# Eval("au_fname") %></h4>
+                                        <h4><%# Eval("CAR_NAME") %>　<%# Eval("LICENSE_PLATE") %></h4>
                                     </div>
                                 </a>
                                 <button class="btn btn-primary" onclick="$('#modalReservation').modal('show');" style="position: absolute; right: 10px; top: 10px" contenteditable="true" type="button">预约</button>
-                                <div id="collapseOne" class="panel-collapse collapse">
+                                <div id="collapse<%# Eval("CAR_ID") %>" class="panel-collapse collapse">
                                     <div class="panel-body">
                                         <table class="table table-condensed" contenteditable="true">
                                             <tr>
                                                 <th>车型</th>
-                                                <td>丰田凯美瑞</td>
+                                                <td><%# Eval("CAR_NAME") %></td>
                                                 <th>座位</th>
-                                                <td>5座</td>
+                                                <td><%# Eval("PERSON_CNT") %>座</td>
                                             </tr>
                                             <tr>
                                                 <th>司机</th>
-                                                <td colspan="3">李师傅</td>
+                                                <td colspan="3"><%# Eval("USER_NAME") %></td>
                                             </tr>
                                             <tr>
                                                 <th>联系方式</th>
-                                                <td colspan="3">13888888888</td>
+                                                <td colspan="3"><%# Eval("TEL") %></td>
                                             </tr>
                                             <tr>
                                                 <th>状态</th>
-                                                <td colspan="3">空闲</td>
-                                            </tr>
+                                                <td colspan="3"><%# Eval("NUM") %></td>
+                                            </tr>   
                                         </table>
                                     </div>
                                 </div>
@@ -90,6 +90,7 @@
                         </ItemTemplate>
                     </asp:TemplateField>
                 </Columns>
+                <HeaderStyle Wrap="True" />
             </asp:GridView>
            <%-- <div class="panel panel-default" style="position: relative">
                 <a data-toggle="collapse" data-parent="#accordion"
@@ -203,8 +204,7 @@
                     <div class="modal-header">
                         <button type="button" class="close"
                             data-dismiss="modal" aria-hidden="true">
-                            &times;
-                        </button>
+                            &times;</button>
                         <h4 class="modal-title" id="modalReservationLabel">用车预约
                         </h4>
                     </div>
