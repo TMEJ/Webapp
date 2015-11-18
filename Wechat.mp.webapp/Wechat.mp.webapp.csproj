@@ -73,6 +73,7 @@
     <Content Include="Web\js\bootstrap.js" />
     <Content Include="Web\js\bootstrap.min.js" />
     <Content Include="Web\js\jquery.js" />
+    <Content Include="Web\js\main.js" />
     <Content Include="Web\js\npm.js" />
     <Content Include="Web\Main.aspx" />
     <Content Include="WX001.html" />

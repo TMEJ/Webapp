@@ -35,7 +35,7 @@
                         <a role="menuitem" tabindex="-1" onclick="$('#modalApproval').modal('show');" href="#">主管审批</a>
                     </li>
                     <li role="presentation">
-                        <a role="menuitem" tabindex="-1" href="#" onclick="myfunction();">车辆追加
+                        <a role="menuitem" tabindex="-1" href="#" onclick="btnAddCarInfoClick();">车辆追加
                         </a>
                     </li>
                     <li role="presentation" class="divider"></li>
@@ -428,6 +428,72 @@
                             提交更改
                         </button>
                     </div>--%>
+                </div>
+            </div>
+        </div>
+
+        <%--Add car info--%>
+        <div class="modal fade" id="modalAddCarInfo" tabindex="-1" role="dialog"
+            aria-labelledby="modalAddCarInfoLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close"
+                            data-dismiss="modal" aria-hidden="true">
+                            &times;</button>
+                        <h4 class="modal-title" id="modalAddCarInfoLabel">車両登録
+                        </h4>
+                    </div>
+                    <div class="modal-body">
+
+                        <div class="control-group">
+                            <label class="control-label" contenteditable="true" for="carName">车型</label>
+
+                            <div class="controls">
+                                <input id="carName" class="form-control" placeholder="车型" type="text"/>
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label" contenteditable="true" for="personCnt">座位数</label>
+
+                            <div class="controls">
+                                <select class="form-control" id="personCnt">
+                                    <option value="5">5座</option>
+                                    <option value="7">7座</option>
+                                    <option value="99">7座以上</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label" contenteditable="true" for="licensePlate">车牌号</label>
+
+                            <div class="controls">
+                                <input id="licensePlate" class="form-control" placeholder="车牌号" type="text" />
+                            </div>
+                        </div>
+                        
+                        <div class="control-group">
+                            <label class="control-label" contenteditable="true" for="selecteDriver">分配司机</label>
+
+                            <div class="controls">
+                                <select class="form-control" id="selecteDriver">
+                                    <option></option>
+                                </select>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default"
+                            data-dismiss="modal">
+                            关闭
+                        </button>
+                        <button type="button" class="btn btn-primary" data-loading-text="正在加载..." onclick="submitCarInfoClick()">
+                            提交更改
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>

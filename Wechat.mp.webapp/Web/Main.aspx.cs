@@ -15,11 +15,12 @@ namespace Wechat.mp.webapp.Web
     public partial class Main : System.Web.UI.Page
     {
 
-        private string ORACLE_USER_ID = "luna";
-        private string ORACLE_PASSWORD = "luna";
+        private static string ORACLE_USER_ID = "luna";
+        private static string ORACLE_PASSWORD = "luna";
+        private static string connString = "DATA SOURCE=ORCL_SERVER;PERSIST SECURITY INFO=True;USER ID=luna;password=luna";
+
         protected void Page_Load(object sender, EventArgs e)
         {
-            string connString = "DATA SOURCE=ORCL_SERVER;PERSIST SECURITY INFO=True;USER ID=luna;password=luna";
             OracleConnection conn = new OracleConnection(connString);
             try
             {
@@ -61,8 +62,95 @@ namespace Wechat.mp.webapp.Web
             }
         }
 
+        /// <summary>
+        /// 運転者リストを取得
+        /// </summary>
+        /// <returns></returns>
         [WebMethod]
-        public static string getXXX() { return "Hello Ajax!"; }
+        public static string GetDriverList()
+        {
+            OracleConnection conn = new OracleConnection(connString);
+            try
+            {
+                conn.Open();
+
+                StringBuilder sqlBuilder = new StringBuilder();
+                sqlBuilder.Append("SELECT T.USER_ID, T.USER_NAME FROM USERLIST T WHERE T.DISTINCTION = '02'");
+
+                OracleCommand cmd = new OracleCommand(sqlBuilder.ToString(), conn);
+                OracleDataAdapter oda = new OracleDataAdapter(cmd);
+                DataTable dt = new DataTable();
+                oda.Fill(dt);
+
+                return DataTable2Json(dt);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+
+        /// <summary>
+        /// 車両追加
+        /// </summary>
+        /// <returns></returns>
+        [WebMethod]
+        public static string InsertCarInfo(string carName, string personCnt, string licensePlate, string selecteDriver)
+        {
+            OracleConnection conn = new OracleConnection(connString);
+            try
+            {
+                conn.Open();
+
+                StringBuilder sqlBuilder = new StringBuilder();
+                sqlBuilder.Append("insert into CARINFO          ");
+                sqlBuilder.Append("  (CAR_ID,                   ");
+                sqlBuilder.Append("   CAR_NAME,                 ");
+                sqlBuilder.Append("   PERSON_CNT,               ");
+                sqlBuilder.Append("   LICENSE_PLATE,            ");
+                sqlBuilder.Append("   DRIVER,                   ");
+                sqlBuilder.Append("   MAKUSER,                  ");
+                sqlBuilder.Append("   MAKDT,                    ");
+                sqlBuilder.Append("   UPDUSER,                  ");
+                sqlBuilder.Append("   UPDDT,                    ");
+                sqlBuilder.Append("   STATUS)                   ");
+                sqlBuilder.Append("values                       ");
+                sqlBuilder.Append("  (sq_car_id.nextval,                  ");
+                sqlBuilder.Append("   #CAR_NAME,                ");
+                sqlBuilder.Append("   #PERSON_CNT,              ");
+                sqlBuilder.Append("   #LICENSE_PLATE,           ");
+                sqlBuilder.Append("   #DRIVER,                  ");
+                sqlBuilder.Append("   #MAKUSER,                 ");
+                sqlBuilder.Append("   systimestamp ,                   ");
+                sqlBuilder.Append("   #MAKUSER,                 ");
+                sqlBuilder.Append("   systimestamp ,                   ");
+                sqlBuilder.Append("   #STATUS)                 ");
+
+                OracleCommand cmd = new OracleCommand(sqlBuilder.ToString(), conn);
+                cmd.Parameters.Add("CAR_NAME", OracleType.VarChar).Value = carName;
+                cmd.Parameters.Add("PERSON_CNT", OracleType.VarChar).Value = personCnt;
+                cmd.Parameters.Add("LICENSE_PLATE", OracleType.VarChar).Value = licensePlate;
+                cmd.Parameters.Add("DRIVER", OracleType.VarChar).Value = selecteDriver;
+                cmd.Parameters.Add("MAKUSER", OracleType.VarChar).Value = "admin";
+                cmd.Parameters.Add("STATUS", OracleType.VarChar).Value = "1";
+
+                cmd.ExecuteNonQuery();
+
+                return "Success";
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
 
         #region dataTable转换成Json格式
         /// <summary>  
@@ -74,9 +162,8 @@ namespace Wechat.mp.webapp.Web
         {
             StringBuilder jsonBuilder = new StringBuilder();
             jsonBuilder.Append("{\"");
-            jsonBuilder.Append(dt.TableName);
+            jsonBuilder.Append(String.IsNullOrEmpty(dt.TableName) ? "arry" : dt.TableName);
             jsonBuilder.Append("\":[");
-            jsonBuilder.Append("[");
             for (int i = 0; i < dt.Rows.Count; i++)
             {
                 jsonBuilder.Append("{");
