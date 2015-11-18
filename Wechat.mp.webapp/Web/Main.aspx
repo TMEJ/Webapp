@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head id="Head1" runat="server">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" name="viewport" />
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=0" name="viewport" />
     <meta content="yes" name="apple-mobile-web-app-capable" />
     <meta content="black" name="apple-mobile-web-app-status-bar-style" />
     <meta content="telephone=no" name="format-detection" />
@@ -48,9 +48,9 @@
         <div class="panel-group" id="accordion">
             <asp:GridView ID="gvCarinfo" runat="server" BorderStyle="None" AutoGenerateColumns="false" Width="100%" ShowHeader="false" >
                 <Columns>
-                    <asp:TemplateField ShowHeader="false" HeaderStyle-BorderStyle="None" HeaderStyle-Height="0">
+                    <asp:TemplateField ShowHeader="false" HeaderStyle-BorderStyle="None" HeaderStyle-Height="0" ItemStyle-BorderStyle="None">
                         <ItemTemplate>
-                            <div class="panel panel-default" style="position: relative">
+                            <div class="panel panel-default" style="position: relative;margin-bottom:10px;">
                                 <a data-toggle="collapse" data-parent="#accordion"
                                     href="#collapse<%# Eval("CAR_ID") %>">
                                     <div class="panel-heading">
@@ -490,7 +490,7 @@
                             data-dismiss="modal">
                             关闭
                         </button>
-                        <button type="button" class="btn btn-primary" data-loading-text="正在加载..." onclick="submitCarInfoClick()">
+                        <button type="button" class="btn btn-primary" data-loading-text="正在加载..." onclick="submitCarInfoClick(this);">
                             提交更改
                         </button>
                     </div>
@@ -526,6 +526,37 @@
                 </div>
             </div>
         </div>
+
+        <%--alert--%>
+        <%--<div class="alert alert-success alert-dismissable fade in hidden">
+            <button type="button" class="close" data-dismiss="alert"
+                aria-hidden="true">
+                &times;
+            </button>
+            <span id="alert-success"></span>
+        </div>
+        <div class="alert alert-info alert-dismissable hidden">
+            <button type="button" class="close" data-dismiss="alert"
+                aria-hidden="true">
+                &times;
+            </button>
+            <span id="alert-info"></span>
+        </div>
+        <div class="alert alert-warning alert-dismissable hidden">
+            <button type="button" class="close" data-dismiss="alert"
+                aria-hidden="true">
+                &times;
+            </button>
+            <span id="alert-warning"></span>
+        </div>
+        <div class="alert alert-danger alert-dismissable hidden">
+            <button type="button" class="close" data-dismiss="alert"
+                aria-hidden="true">
+                &times;
+            </button>
+            <span id="alert-danger"></span>
+        </div>--%>
+        <div id="messageBox" style="position:fixed;top:5px" class="col-xs-12 navbar-fixed-top"></div>
 
     </form>
 </body>

@@ -120,22 +120,22 @@ namespace Wechat.mp.webapp.Web
                 sqlBuilder.Append("   STATUS)                   ");
                 sqlBuilder.Append("values                       ");
                 sqlBuilder.Append("  (sq_car_id.nextval,                  ");
-                sqlBuilder.Append("   #CAR_NAME,                ");
-                sqlBuilder.Append("   #PERSON_CNT,              ");
-                sqlBuilder.Append("   #LICENSE_PLATE,           ");
-                sqlBuilder.Append("   #DRIVER,                  ");
-                sqlBuilder.Append("   #MAKUSER,                 ");
+                sqlBuilder.Append("   :CAR_NAME,                ");
+                sqlBuilder.Append("   :PERSON_CNT,              ");
+                sqlBuilder.Append("   :LICENSE_PLATE,           ");
+                sqlBuilder.Append("   :DRIVER,                  ");
+                sqlBuilder.Append("   :MAKUSER,                 ");
                 sqlBuilder.Append("   systimestamp ,                   ");
-                sqlBuilder.Append("   #MAKUSER,                 ");
+                sqlBuilder.Append("   :MAKUSER,                 ");
                 sqlBuilder.Append("   systimestamp ,                   ");
-                sqlBuilder.Append("   #STATUS)                 ");
+                sqlBuilder.Append("   :STATUS)                 ");
 
                 OracleCommand cmd = new OracleCommand(sqlBuilder.ToString(), conn);
                 cmd.Parameters.Add("CAR_NAME", OracleType.VarChar).Value = carName;
                 cmd.Parameters.Add("PERSON_CNT", OracleType.VarChar).Value = personCnt;
                 cmd.Parameters.Add("LICENSE_PLATE", OracleType.VarChar).Value = licensePlate;
                 cmd.Parameters.Add("DRIVER", OracleType.VarChar).Value = selecteDriver;
-                cmd.Parameters.Add("MAKUSER", OracleType.VarChar).Value = "admin";
+                cmd.Parameters.Add("MAKUSER", OracleType.VarChar).Value = "root";
                 cmd.Parameters.Add("STATUS", OracleType.VarChar).Value = "1";
 
                 cmd.ExecuteNonQuery();
