@@ -29,10 +29,10 @@
                 </button>
                 <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="dropdownMenu1">
                     <li role="presentation">
-                        <a role="menuitem" tabindex="-1" onclick="$('#modalResvHistory').modal('show');" href="#">我的预约</a>
+                        <a role="menuitem" tabindex="-1" onclick="getResvHistory();" href="#">我的预约</a>
                     </li>
                     <li role="presentation">
-                        <a role="menuitem" tabindex="-1" onclick="$('#modalApproval').modal('show');" href="#">主管审批</a>
+                        <a role="menuitem" tabindex="-1" onclick="getApprovalList();" href="#">主管审批</a>
                     </li>
                     <li role="presentation">
                         <a role="menuitem" tabindex="-1" href="#" onclick="btnAddCarInfoClick();">车辆追加
@@ -46,49 +46,9 @@
             </div>
         </header>
         <div class="panel-group" id="accordion">
-            <asp:GridView ID="gvCarinfo" runat="server" BorderStyle="None" AutoGenerateColumns="false" Width="100%" ShowHeader="false" >
-                <Columns>
-                    <asp:TemplateField ShowHeader="false" HeaderStyle-BorderStyle="None" HeaderStyle-Height="0" ItemStyle-BorderStyle="None">
-                        <ItemTemplate>
-                            <div class="panel panel-default" style="position: relative;margin-bottom:10px;">
-                                <a data-toggle="collapse" data-parent="#accordion"
-                                    href="#collapse<%# Eval("CAR_ID") %>">
-                                    <div class="panel-heading">
-                                        <img src="img/kmr.png" />
-                                        <h4><%# Eval("CAR_NAME") %>　<%# Eval("LICENSE_PLATE") %></h4>
-                                    </div>
-                                </a>
-                                <button class="btn btn-primary" onclick="$('#modalReservation').modal('show');" style="position: absolute; right: 10px; top: 10px" contenteditable="true" type="button">预约</button>
-                                <div id="collapse<%# Eval("CAR_ID") %>" class="panel-collapse collapse">
-                                    <div class="panel-body">
-                                        <table class="table table-condensed" contenteditable="true">
-                                            <tr>
-                                                <th>车型</th>
-                                                <td><%# Eval("CAR_NAME") %></td>
-                                                <th>座位</th>
-                                                <td><%# Eval("PERSON_CNT") %>座</td>
-                                            </tr>
-                                            <tr>
-                                                <th>司机</th>
-                                                <td colspan="3"><%# Eval("USER_NAME") %></td>
-                                            </tr>
-                                            <tr>
-                                                <th>联系方式</th>
-                                                <td colspan="3"><%# Eval("TEL") %></td>
-                                            </tr>
-                                            <tr>
-                                                <th>状态</th>
-                                                <td colspan="3"><%# Eval("NUM") %></td>
-                                            </tr>   
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </ItemTemplate>
-                    </asp:TemplateField>
-                </Columns>
-                <HeaderStyle Wrap="True" />
-            </asp:GridView>
+            <table id="gvCarinfo" style="width:100%">
+                <tbody></tbody>
+            </table>
            <%-- <div class="panel panel-default" style="position: relative">
                 <a data-toggle="collapse" data-parent="#accordion"
                     href="#collapseOne">
@@ -264,7 +224,7 @@
                             data-dismiss="modal">
                             关闭
                         </button>
-                        <button type="button" class="btn btn-primary">
+                        <button type="button" class="btn btn-primary" data-loading-text="正在加载..." onclick="submitReservationClick(this)">
                             提交更改
                         </button>
                     </div>
@@ -285,8 +245,8 @@
                         <h4 class="modal-title" id="resvHistoryModalLabel">我的预约
                         </h4>
                     </div>
-                    <div class="modal-body">
-                        <div class="panel panel-default">
+                    <div class="modal-body" style="overflow:auto; max-height:480px;-webkit-overflow-scrolling: touch;-webkit-transform: translate3d(0,0,0);">
+                      <%--  <div class="panel panel-default">
                             <div class="panel-heading">
                                 <h3 class="panel-title">No.1 2015/11/11 12:00
                                 </h3>
@@ -336,7 +296,7 @@
                                     </tr>
                                 </table>
                             </div>
-                        </div>
+                        </div>--%>
 
                     </div>
                     <%--<div class="modal-footer">
@@ -365,7 +325,7 @@
                         <h4 class="modal-title" id="modalApprovalLabel">待审核一览
                         </h4>
                     </div>
-                    <div class="modal-body">
+                    <div class="modal-body" style="overflow:auto; max-height:480px;-webkit-overflow-scrolling: touch;-webkit-transform: translate3d(0,0,0);">
                         <div class="panel panel-default">
                             <div class="panel-heading">
                                 <h3 class="panel-title">No.1 2015/11/11 12:00
@@ -386,7 +346,7 @@
                                         <th>操作</th>
                                         <td>
                                             <button type="button" class="btn btn-primary btn-sm">同意</button>
-                                            <button type="button" class="btn btn-danger btn-sm">不同意</button></td>
+                                            <button type="button" class="btn btn-default btn-sm">不同意</button></td>
                                     </tr>
                                 </table>
                             </div>
