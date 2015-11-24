@@ -199,7 +199,7 @@
                             <label class="control-label" contenteditable="true" for="datetime">约定时间</label>
 
                             <div class="controls">
-                                <input id="datetime" class="form-control" type="datetime-local" />
+                                <input id="datetime" class="form-control" type="datetime" />
                             </div>
                         </div>
 
@@ -227,6 +227,7 @@
                         <button type="button" class="btn btn-primary" data-loading-text="正在加载..." onclick="submitReservationClick(this)">
                             提交更改
                         </button>
+                        <input type="hidden" id="eq" value="" />
                     </div>
                 </div>
             </div>

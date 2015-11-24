@@ -175,6 +175,12 @@ function btnReservationClick(carId) {
                 $("#selecteCar").append("<option value='" + this.CAR_ID + "'>" + this.CAR_NAME + "　" + this.LICENSE_PLATE + "</option>");
             });
             $("#selecteCar").val(carId);
+            $("#addressFrom").val("");
+            $("#addressTo").val("");
+            $("#datetime").val("");
+            $("#pesvTime").val("");
+            $("#remark").val("");
+            $("#eq").val("");
         },
         error: function (err) {
             alert(err);
@@ -217,6 +223,7 @@ function submitReservationClick(btnObj) {
     "',datetime: '" + $("#datetime").val() +
     "',pesvTime: '" + $("#pesvTime").val() +
     "',remark: '" + $("#remark").val() +
+    "',eq: '" + $("#eq").val() +
     "'}";
 
     $.ajax({
@@ -268,6 +275,7 @@ function getResvHistory() {
         url: "Main.aspx/GetSchedule",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
+        data: "{eq:'',status:'R'}",
         success: function (data) {
             //返回的数据用data.d获取内容 
             $("#modalResvHistory .modal-body").html("");
@@ -291,8 +299,8 @@ function getResvHistory() {
                 + "<tr>"
                 + "<th>操作</th> "
                 + "<td>"
-                + "<button type=\"button\" class=\"btn btn-primary btn-sm\">更改</button>"
-                + "<button type=\"button\" class=\"btn btn-danger btn-sm\">删除</button></td>"
+                + "<button type=\"button\" class=\"btn btn-primary btn-sm\" onclick='updateReservationClick(" + this.EQ + ")'>更改</button> "
+                + "<button type=\"button\" class=\"btn btn-danger btn-sm\" data-loading-text=\"loading...\" onclick='updateReservation(this,4," + this.EQ + ");'>删除</button></td>"
                 + "</tr> "
                 + "</table>"
                 + "</div>"
@@ -318,6 +326,7 @@ function getApprovalList() {
         url: "Main.aspx/GetSchedule",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
+        data: "{eq:'',status:'A'}",
         success: function (data) {
             //返回的数据用data.d获取内容 
             $("#modalApproval .modal-body").html("");
@@ -341,8 +350,8 @@ function getApprovalList() {
                 + "<tr>"
                 + "<th>操作</th> "
                 + "<td>"
-                + "<button type=\"button\" class=\"btn btn-primary btn-sm\">同意</button>"
-                + "<button type=\"button\" class=\"btn btn-default btn-sm\">不同意</button></td>"
+                + "<button type=\"button\" class=\"btn btn-primary btn-sm\" data-loading-text=\"loading...\" onclick='updateReservation(this,2," + this.EQ + ");'>同意</button> "
+                + "<button type=\"button\" class=\"btn btn-default btn-sm\" data-loading-text=\"loading...\" onclick='updateReservation(this,3," + this.EQ + ");'>不同意</button></td>"
                 + "</tr> "
                 + "</table>"
                 + "</div>"
@@ -351,6 +360,81 @@ function getApprovalList() {
                 $("#modalApproval .modal-body").append(tr);
 
             });
+        },
+        error: function (err) {
+            alert(err);
+        }
+    });
+}
+
+function updateReservationClick(id) {
+    $('.modal').modal('hide');
+    $('#modalReservation').modal({ backdrop: 'static' });
+    $('#modalReservation').modal('show');
+    $.ajax({
+        //要用post方式 
+        type: "Post",
+        //方法所在页面和方法名 
+        url: "Main.aspx/LoadCarList",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (data) {
+            //返回的数据用data.d获取内容 
+            $("#selecteCar").html("");
+            $(eval("(" + data.d + ")").arry).each(function () {
+                $("#selecteCar").append("<option value='" + this.CAR_ID + "'>" + this.CAR_NAME + "　" + this.LICENSE_PLATE + "</option>");
+            });
+        },
+        error: function (err) {
+            alert(err);
+        }
+    });
+
+    $.ajax({
+        //要用post方式 
+        type: "Post",
+        //方法所在页面和方法名 
+        url: "Main.aspx/GetSchedule",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        data: "{eq:'" + id + "',status:''}",
+        success: function (data) {
+            //返回的数据用data.d获取内容 
+            $(eval("(" + data.d + ")").arry).each(function () {
+                $("#selecteCar").val(this.PLAN_CAR);
+                $("#addressFrom").val(this.FROM_LOCATION);
+                $("#addressTo").val(this.TO_LOCATION);
+                $("#datetime").val(this.FROM_TIME);
+                $("#pesvTime").val(this.TO_TIME);
+                $("#remark").val(this.REMARK);
+                $("#eq").val(this.EQ);
+            });
+        },
+        error: function (err) {
+            alert(err);
+        }
+    });
+}
+
+function updateReservation(btnObj,status,eq) {
+
+    var $btn = $(btnObj).button('loading');
+
+    $.ajax({
+        //要用post方式 
+        type: "Post",
+        //方法所在页面和方法名 
+        url: "Main.aspx/UpdateReservation",
+        data: "{eq:'" + eq + "',status:'" + status + "'}",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (data) {
+            //返回的数据用data.d获取内容 
+            if (data.d == "Success") {
+                $btn.button('reset')
+                $(btnObj).parent().parent().parent().parent().parent().parent().remove();
+            }
+
         },
         error: function (err) {
             alert(err);
