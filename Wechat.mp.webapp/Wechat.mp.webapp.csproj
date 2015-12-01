@@ -76,13 +76,6 @@
     <Content Include="Web\js\main.js" />
     <Content Include="Web\js\npm.js" />
     <Content Include="Web\Main.aspx" />
-    <Content Include="WX001.html" />
-    <Content Include="WX002.html" />
-    <Content Include="WX003.html" />
-    <Content Include="WX004.html" />
-    <Content Include="WX005.html" />
-    <Content Include="WX006.html" />
-    <Content Include="WX007.html" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
