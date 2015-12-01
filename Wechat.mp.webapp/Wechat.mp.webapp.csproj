@@ -58,6 +58,7 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="CreateTable.sql" />
     <Content Include="Web.config" />
     <Content Include="Web\css\bootstrap-theme.css" />
     <Content Include="Web\css\bootstrap-theme.min.css" />
@@ -100,6 +101,8 @@
     <Content Include="Web\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="Web\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="Web\fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="データベース-テーブル設計.xlsx" />
+    <Content Include="基本設計.xlsx" />
   </ItemGroup>
   <ItemGroup />
   <PropertyGroup>
